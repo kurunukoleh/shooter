@@ -4,20 +4,25 @@ import tank
 import bullets
 import time
 import random
+import settings
 
 pygame.init()
 pygame.mixer.init()
 window = pygame.display.set_mode((800 , 500))
 fps = pygame.time.Clock()
 
-pygame.mixer.music.load("m6l1/space.ogg")
-fon = pygame.image.load("m6l1/galaxy.jpg")
+fon = pygame.image.load(settings.fon_texture)
 fon = pygame.transform.scale(fon , (800 , 500))
-fonlose = pygame.image.load("pixelartlose.png")
+fonlose = pygame.image.load(settings.lose_texture)
 fonlose = pygame.transform.scale(fonlose , (800 , 500))
-fonwin = pygame.image.load("pixelartwin.png")
+fonwin = pygame.image.load(settings.win_texture)
 fonwin = pygame.transform.scale(fonwin , (800 , 500))
-shootsound = pygame.mixer.Sound('m6l1/fire.ogg')
+
+pygame.mixer.music.load(settings.musick)
+shootsound = pygame.mixer.Sound(settings.fire_sound)
+#winsound = pygame.mixer.Sound(settings.win_sound)
+#losesound = pygame.mixer.Sound(settings.lose_sound)
+
 islose = False
 iswin = False
 lichbul = -1
@@ -27,12 +32,12 @@ fixtime1 = time.time()
 fixtime2 = time.time()
 
 pygame.mixer.music.play(-1)
-pygame.mixer.music.set_volume(0.3)
+pygame.mixer.music.set_volume(settings.musik_volume)
 
-rocket = tank.Tank(300 , 400 , 100 , 100 , "m6l1/rocket.png" , 5)
+rocket = tank.Tank(300 , 400 , 100 , 100 , settings.rocket_texture , settings.player_speed)
 
-for i in range(30):
-    enmylist.append(enemes.Enemy(random.randint(0 , 750) , random.randint(-3000 , 0) , 50 , 50 ,  "m6l1/asteroid.png" , 2))
+for i in range(settings.asteroid_count):
+    enmylist.append(enemes.Enemy(random.randint(0 , 750) , random.randint(-100 * settings.asteroid_count , 0) , 50 , 50 ,  settings.mateor_texture , settings.asteroid_speed))
 
 game = True
 while game :
@@ -44,17 +49,18 @@ while game :
     rocket.move()
     rocket.shoot()
     #print(rocket.shoot())
-    if time.time() - fixtime1 > 0.5:
-        fixtime1 = time.time()
-        if rocket.shoot() == True:
+    if rocket.shoot() == True:
+        if time.time() - fixtime1 > 0.5:
+            fixtime1 = time.time()
             shootsound.play()
-            bullsit.append(bullets.Bullshit(rocket.hitbox.x + 45 , rocket.hitbox.y , 10 , 20 , "m6l1/bullet.png" , 10))
+            bullsit.append(bullets.Bullshit(rocket.hitbox.x + 45 , rocket.hitbox.y , 15 , 30 , settings.bull_texture , settings.bull_speed))
 
     for enemy1 in enmylist:
         if rocket.hitbox.colliderect(enemy1.hitbox):
             #game = False
             #pygame.quit()
             islose = True
+            #losesound.play()
             pygame.mixer.quit()
 
     for colbul in bullsit:
@@ -68,11 +74,12 @@ while game :
     lichbul = -1
 
     for item in bullsit:
-        if item.hitbox.y < 0 :
+        if item.hitbox.y < 0:
             bullsit.pop(0)
 
-    if time.time() - fixtime2 > 30 :
+    if time.time() - fixtime2 > settings.asteroid_count :
         iswin = True
+        #winsound.play()
         pygame.mixer.quit()
 
     window.fill((255, 0, 0))
@@ -93,4 +100,4 @@ while game :
         window.blit(fonlose , [0 , 0])
 
     pygame.display.flip()
-    fps.tick(60)
+    fps.tick(settings.fps)
