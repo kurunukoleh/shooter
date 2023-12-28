@@ -15,7 +15,7 @@ class Tank :
     def move(self):
         keys = pygame.key.get_pressed()
         if keys[pygame.K_d]:
-            if self.hitbox.x < 750:
+            if self.hitbox.x < 700:
                 self.hitbox.x += self.speed
         if keys[pygame.K_a]:
             if self.hitbox.x > 0:
@@ -24,7 +24,7 @@ class Tank :
             if self.hitbox.y > 0:
                 self.hitbox.y -= self.speed
         if keys[pygame.K_s]:
-            if self.hitbox.y < 450:
+            if self.hitbox.y < 400:
                 self.hitbox.y += self.speed
 
     def shoot(self):

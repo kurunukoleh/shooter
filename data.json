@@ -1,0 +1,9 @@
+{
+    "asteroid_count": 30,
+    "asteroid_speed": 2,
+    "asteroid_size": 50,
+    "player_speed": 5,
+    "bull_speed": 10,
+    "fps": 60,
+    "musik_volume": 60
+}

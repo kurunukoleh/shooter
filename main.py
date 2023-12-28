@@ -37,7 +37,7 @@ pygame.mixer.music.set_volume(settings.musik_volume)
 rocket = tank.Tank(300 , 400 , 100 , 100 , settings.rocket_texture , settings.player_speed)
 
 for i in range(settings.asteroid_count):
-    enmylist.append(enemes.Enemy(random.randint(0 , 750) , random.randint(-100 * settings.asteroid_count , 0) , 50 , 50 ,  settings.mateor_texture , settings.asteroid_speed))
+    enmylist.append(enemes.Enemy(random.randint(0 , 750) , random.randint(-100 * settings.asteroid_count , 0) , settings.asteroid_size , settings.asteroid_size ,  settings.mateor_texture , settings.asteroid_speed))
 
 game = True
 while game :
