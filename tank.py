@@ -1,7 +1,8 @@
 import pygame
+pygame.mixer.init()
 
 class Tank :
-    def __init__(self , x , y , w , h , texture , speed):
+    def __init__(self , x , y , w , h , texture , speed ):
         self.texture = pygame.image.load(texture)
         self.texture = pygame.transform.scale(self.texture, (w, h))
         self.hitbox = self.texture.get_rect()

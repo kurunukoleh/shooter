@@ -5,8 +5,19 @@ import bullets
 import time
 import random
 import settings
+import json
 
 def start():
+    with open('data.json', 'r', encoding='utf-8') as f:
+        dota = json.load(f)
+    asteroid_count = int(dota['asteroid_count'])
+    asteroid_speed = int(dota['asteroid_speed'])
+    asteroid_size = int(dota['asteroid_size'])
+    player_speed = int(dota['player_speed'])
+    bull_speed = int(dota['bull_speed'])
+    fps1 = int(dota['fps'])
+    musik_volume = int(dota['musik_volume']) / 100
+
     pygame.init()
     pygame.mixer.init()
     window = pygame.display.set_mode((800, 500))
@@ -18,11 +29,14 @@ def start():
     fonlose = pygame.transform.scale(fonlose, (800, 500))
     fonwin = pygame.image.load(settings.win_texture)
     fonwin = pygame.transform.scale(fonwin, (800, 500))
+    #bomtexture = pygame.image.load(settings.boom_texture)
+    #bomtexture = pygame.transform.scale(bomtexture , (100 , 100))
 
     pygame.mixer.music.load(settings.musick)
     shootsound = pygame.mixer.Sound(settings.fire_sound)
-    # winsound = pygame.mixer.Sound(settings.win_sound)
-    # losesound = pygame.mixer.Sound(settings.lose_sound)
+    bomsound = pygame.mixer.Sound(settings.bom_sound)
+    winsound = pygame.mixer.Sound(settings.win_sound)
+    losesound = pygame.mixer.Sound(settings.lose_sound)
 
     islose = False
     iswin = False
@@ -33,14 +47,14 @@ def start():
     fixtime2 = time.time()
 
     pygame.mixer.music.play(-1)
-    pygame.mixer.music.set_volume(settings.musik_volume)
+    pygame.mixer.music.set_volume(musik_volume)
 
-    rocket = tank.Tank(300, 400, 100, 100, settings.rocket_texture, settings.player_speed)
+    rocket = tank.Tank(300, 400, 100, 100, settings.rocket_texture, player_speed )
 
-    for i in range(settings.asteroid_count):
-        enmylist.append(enemes.Enemy(random.randint(0, 750), random.randint(-100 * settings.asteroid_count, 0),
-                                     settings.asteroid_size, settings.asteroid_size, settings.mateor_texture,
-                                     settings.asteroid_speed))
+    for i in range(asteroid_count):
+        enmylist.append(enemes.Enemy(random.randint(0, 750), random.randint(-100 * asteroid_count, 0),
+                                     asteroid_size, asteroid_size, settings.mateor_texture,
+                                     asteroid_speed))
 
     game = True
     while game:
@@ -57,15 +71,20 @@ def start():
                 fixtime1 = time.time()
                 shootsound.play()
                 bullsit.append(bullets.Bullshit(rocket.hitbox.x + 45, rocket.hitbox.y, 15, 30, settings.bull_texture,
-                                                settings.bull_speed))
+                                                bull_speed))
 
         for enemy1 in enmylist:
             if rocket.hitbox.colliderect(enemy1.hitbox):
                 # game = False
                 # pygame.quit()
                 islose = True
-                # losesound.play()
-                pygame.mixer.quit()
+                losesound.play()
+                shootsound.set_volume(0)
+                bomsound.set_volume(0)
+                rocket.hitbox.x = 10000
+                rocket.hitbox.y = 10000
+                pygame.mixer.music.stop()
+                #pygame.mixer.quit()
 
         for colbul in bullsit:
             lichbul += 1
@@ -75,16 +94,20 @@ def start():
                 if colbul.hitbox.colliderect(colenem.hitbox):
                     enmylist.pop(lich)
                     bullsit.pop(lichbul)
+                    bomsound.play()
         lichbul = -1
 
         for item in bullsit:
             if item.hitbox.y < 0:
                 bullsit.pop(0)
 
-        if time.time() - fixtime2 > settings.asteroid_count:
+        if time.time() - fixtime2 > asteroid_count:
             iswin = True
-            # winsound.play()
-            pygame.mixer.quit()
+            shootsound.set_volume(0)
+            pygame.mixer.music.stop()
+            if time.time() - fixtime2 < asteroid_count + 0.02:
+                winsound.play()
+            #pygame.mixer.quit()
 
         window.fill((255, 0, 0))
         window.blit(fon, [0, 0])
@@ -104,4 +127,4 @@ def start():
             window.blit(fonlose, [0, 0])
 
         pygame.display.flip()
-        fps.tick(settings.fps)
+        fps.tick(fps1)

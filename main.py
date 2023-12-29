@@ -17,11 +17,14 @@ fonlose = pygame.image.load(settings.lose_texture)
 fonlose = pygame.transform.scale(fonlose , (800 , 500))
 fonwin = pygame.image.load(settings.win_texture)
 fonwin = pygame.transform.scale(fonwin , (800 , 500))
+#bomtexture = pygame.image.load(settings.boom_texture)
+#bomtexture = pygame.transform.scale(bomtexture , (100 , 100))
 
 pygame.mixer.music.load(settings.musick)
 shootsound = pygame.mixer.Sound(settings.fire_sound)
-#winsound = pygame.mixer.Sound(settings.win_sound)
-#losesound = pygame.mixer.Sound(settings.lose_sound)
+bomsound = pygame.mixer.Sound(settings.bom_sound)
+winsound = pygame.mixer.Sound(settings.win_sound)
+losesound = pygame.mixer.Sound(settings.lose_sound)
 
 islose = False
 iswin = False
@@ -60,6 +63,12 @@ while game :
             #game = False
             #pygame.quit()
             islose = True
+            losesound.play()
+            shootsound.set_volume(0)
+            bomsound.set_volume(0)
+            rocket.hitbox.x = 10000
+            rocket.hitbox.y = 10000
+            pygame.mixer.music.stop()
             #losesound.play()
             pygame.mixer.quit()
 
@@ -79,6 +88,10 @@ while game :
 
     if time.time() - fixtime2 > settings.asteroid_count :
         iswin = True
+        shootsound.set_volume(0)
+        pygame.mixer.music.stop()
+        if time.time() - fixtime2 < settings.asteroid_count + 0.02:
+            winsound.play()
         #winsound.play()
         pygame.mixer.quit()
 

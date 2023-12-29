@@ -1,5 +1,8 @@
 import pygame
 
+import settings
+
+
 class Enemy:
     def __init__(self , x , y , w , h , texture , speed):
         self.texture = pygame.image.load(texture)
@@ -14,3 +17,4 @@ class Enemy:
 
     def move(self):
         self.hitbox.y += self.speed
+

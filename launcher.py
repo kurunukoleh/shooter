@@ -2,12 +2,12 @@ from PyQt5.QtWidgets import *
 import json
 import game
 
-import pygame
-import enemes
-import tank
-import bullets
-import time
-import random
+#import pygame
+#import enemes
+#import tank
+#import bullets
+#import time
+#import random
 import settings
 
 dota = {}
@@ -180,6 +180,16 @@ mainline.addWidget(butonsave)
 mainline.addWidget(butonskip)
 mainline.addWidget(butonstart)
 
+with open('data.json', 'r', encoding='utf-8') as f:
+    dota = json.load(f)
+pole1.setText(str(dota['asteroid_count']))
+pole2.setText(str(dota['asteroid_speed']))
+pole3.setText(str(dota['asteroid_size']))
+pole4.setText(str(dota['player_speed']))
+pole5.setText(str(dota['bull_speed']))
+pole6.setText(str(dota['fps']))
+pole7.setText(str(dota['musik_volume']))
+
 def save():
     dota['asteroid_count'] = pole1.text()
     dota['asteroid_speed']= pole2.text()
@@ -187,16 +197,17 @@ def save():
     dota['player_speed']= pole4.text()
     dota['bull_speed']= pole5.text()
     dota['fps']= pole6.text()
-    dota['musik_volume'] =  pole7.text()
+    dota['musik_volume'] = pole7.text()
     with open('data.json', 'w', ) as f:
         json.dump(dota, f, indent=4)
-    pole1.clear()
-    pole2.clear()
-    pole3.clear()
-    pole4.clear()
-    pole5.clear()
-    pole6.clear()
-    pole7.clear()
+    #pole1.clear()
+    #pole2.clear()
+    #pole3.clear()
+    #pole4.clear()
+    #pole5.clear()
+    #pole6.clear()
+    #pole7.clear()
+    #settings.new()
 
 def skip():
     pole1.clear()
@@ -206,6 +217,13 @@ def skip():
     pole5.clear()
     pole6.clear()
     pole7.clear()
+    settings.asteroid_count = 30
+    settings.player_speed = 2
+    settings.asteroid_size = 50
+    settings.player_speed = 5
+    settings.bull_speed = 10
+    settings.fps = 60
+    settings.musik_volume = 60
     dota['asteroid_count'] = 30
     dota['asteroid_speed'] = 2
     dota['asteroid_size'] = 50
@@ -222,6 +240,7 @@ def skip():
     pole5.setText('10')
     pole6.setText('60')
     pole7.setText('60')
+    #settings.new()
 
 
 
