@@ -40,7 +40,10 @@ pygame.mixer.music.set_volume(settings.musik_volume)
 rocket = tank.Tank(300 , 400 , 100 , 100 , settings.rocket_texture , settings.player_speed)
 
 for i in range(settings.asteroid_count):
-    enmylist.append(enemes.Enemy(random.randint(0 , 750) , random.randint(-100 * settings.asteroid_count , 0) , settings.asteroid_size , settings.asteroid_size ,  settings.mateor_texture , settings.asteroid_speed))
+    enmylist.append(
+        enemes.Enemy(random.randint(0, 750), random.randint(-100 * settings.asteroid_count, 0), settings.asteroid_size, settings.asteroid_size,
+                     settings.asteroid_speed, settings.mateor_texture1, settings.mateor_texture2, settings.mateor_texture3,
+                     random.randint(1, 3)))
 
 game = True
 while game :
@@ -78,8 +81,12 @@ while game :
         for colenem in enmylist:
             lich += 1
             if colbul.hitbox.colliderect(colenem.hitbox):
-                enmylist.pop(lich)
-                bullsit.pop(lichbul)
+                try:
+                    enmylist.pop(lich)
+                    bullsit.pop(lichbul)
+                    bomsound.play()
+                except:
+                    pass
     lichbul = -1
 
     for item in bullsit:

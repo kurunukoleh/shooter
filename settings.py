@@ -2,7 +2,9 @@
 
 #textures
 rocket_texture = "pixelartship.png"
-mateor_texture = "pixelartmeteor.png"
+mateor_texture1 = "pixelartmeteor.png"
+mateor_texture2 = "pixelartmeteor2.png"
+mateor_texture3 = "pixelartmeteor3.png"
 bull_texture = "tnt1.png"
 fon_texture = "pixelartspase.png"
 lose_texture = "pixelartlose.png"

@@ -217,12 +217,6 @@ def skip():
     pole5.clear()
     pole6.clear()
     pole7.clear()
-    settings.asteroid_count = 30
-    settings.player_speed = 2
-    settings.asteroid_size = 50
-    settings.player_speed = 5
-    settings.bull_speed = 10
-    settings.fps = 60
     settings.musik_volume = 60
     dota['asteroid_count'] = 30
     dota['asteroid_speed'] = 2
