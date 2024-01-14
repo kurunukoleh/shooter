@@ -122,7 +122,7 @@ app.setStyleSheet("""
 
 """)
 window2 = QWidget()
-window2.resize(800, 800)
+window2.resize(800, 650)
 mainline = QVBoxLayout()
 
 pole1 = QLineEdit()
@@ -242,7 +242,6 @@ def start():
     window2.hide()
     app.quit()
     game.start()
-
 
 butonsave.clicked.connect(save)
 butonskip.clicked.connect(skip)

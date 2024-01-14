@@ -5,5 +5,11 @@
     "player_speed": 5,
     "bull_speed": 10,
     "fps": 60,
-    "musik_volume": 60
+    "musik_volume": 60,
+    "record": [
+        0,
+        0,
+        19,
+        18
+    ]
 }

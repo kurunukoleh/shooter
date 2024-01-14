@@ -17,6 +17,8 @@ def start():
     bull_speed = int(dota['bull_speed'])
     fps1 = int(dota['fps'])
     musik_volume = int(dota['musik_volume']) / 100
+    recordlist = dota['record']
+    record = max(recordlist)
 
     pygame.init()
     pygame.mixer.init()
@@ -49,6 +51,8 @@ def start():
 
     f1 = pygame.font.Font(None, 36)
     text1 = f1.render('Збито: ' + str(nmet) + " " + "з " + str(asteroid_count), 1, (180, 0, 0))
+    text2 = f1.render('Рекорд: ' + str(record) , 1, (200, 200, 10))
+
 
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(musik_volume)
@@ -112,10 +116,13 @@ def start():
 
         if time.time() - fixtime2 > asteroid_count:
             iswin = True
-            text2 = f1.render('Результат: ' + str(nmet) + " " + "з " + str(asteroid_count), 1, (200, 200, 200))
+            text3 = f1.render('Результат: ' + str(nmet) + " " + "з " + str(asteroid_count), 1, (200, 200, 200))
             shootsound.set_volume(0)
             pygame.mixer.music.stop()
             if time.time() - fixtime2 < asteroid_count + 0.02:
+                dota["record"].append(int(nmet))
+                with open('data.json', 'w', ) as f:
+                    json.dump(dota, f, indent=4)
                 winsound.play()
             #pygame.mixer.quit()
 
@@ -132,10 +139,12 @@ def start():
             bull.render(window)
 
         window.blit(text1, (10, 10))
+        window.blit(text2, (500, 10))
 
         if iswin == True:
             window.blit(fonwin, [0, 0])
-            window.blit(text2 , (100 , 200))
+            window.blit(text3 , (100 , 200))
+            window.blit(text2 , (50 , 250))
         if islose == True:
             window.blit(fonlose, [0, 0])
 
