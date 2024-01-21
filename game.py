@@ -115,12 +115,12 @@ def start():
             if item.hitbox.y < 0:
                 bullsit.pop(0)
 
-        if time.time() - fixtime2 > asteroid_count/asteroid_cocentration +1:
+        if time.time() - fixtime2 > asteroid_count/asteroid_cocentration + 3:
             iswin = True
             text3 = f1.render('Результат: ' + str(nmet) + " " + "з " + str(asteroid_count), 1, (200, 200, 200))
             shootsound.set_volume(0)
             pygame.mixer.music.stop()
-            if time.time() - fixtime2 < asteroid_count + 1 + 0.02:
+            if time.time() - fixtime2 < asteroid_count/asteroid_cocentration + 3.02:
                 dota["record"].append(int(nmet))
                 with open('data.json', 'w', ) as f:
                     json.dump(dota, f, indent=4)
