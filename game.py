@@ -19,6 +19,7 @@ def start():
     musik_volume = int(dota['musik_volume']) / 100
     recordlist = dota['record']
     record = max(recordlist)
+    asteroid_cocentration = int(dota['asteroid_concentration'])/100
 
     pygame.init()
     pygame.mixer.init()
@@ -60,7 +61,7 @@ def start():
     rocket = tank.Tank(300, 400, 100, 100, settings.rocket_texture, player_speed )
 
     for i in range(asteroid_count):
-        enmylist.append(enemes.Enemy(random.randint(0, 750), random.randint(-100 * asteroid_count, 0),asteroid_size, asteroid_size,
+        enmylist.append(enemes.Enemy(random.randint(0, 750), random.randint(-100 * (asteroid_count/asteroid_cocentration), 0),asteroid_size, asteroid_size,
                                      asteroid_speed , settings.mateor_texture1 , settings.mateor_texture2 , settings.mateor_texture3 ,
                                      random.randint(1 ,3)))
 
@@ -114,12 +115,12 @@ def start():
             if item.hitbox.y < 0:
                 bullsit.pop(0)
 
-        if time.time() - fixtime2 > asteroid_count:
+        if time.time() - fixtime2 > asteroid_count/asteroid_cocentration +1:
             iswin = True
             text3 = f1.render('Результат: ' + str(nmet) + " " + "з " + str(asteroid_count), 1, (200, 200, 200))
             shootsound.set_volume(0)
             pygame.mixer.music.stop()
-            if time.time() - fixtime2 < asteroid_count + 0.02:
+            if time.time() - fixtime2 < asteroid_count + 1 + 0.02:
                 dota["record"].append(int(nmet))
                 with open('data.json', 'w', ) as f:
                     json.dump(dota, f, indent=4)

@@ -20,7 +20,7 @@ app.setStyleSheet("""
         font-size: 15px;
         min-width: 1px;
         min-height : 1px;
-        margin : 10 px;
+        margin : 1 px;
     }
 
     QPushButton {
@@ -51,10 +51,10 @@ app.setStyleSheet("""
     }
 
     QPushButton#butonstart {
-        background-color: #00ff00;
+        background-color: #0000ff;
         color : #ffffff;
         border-radius: 5px ;
-        border-color: #00ff00;
+        border-color: #0000ff;
         border-style: solid;
         min-width: 100px;
         min-height: 50px;
@@ -64,7 +64,7 @@ app.setStyleSheet("""
     }
 
     QPushButton#butonstart:hover {
-        background-color: #00ff55;
+        background-color: #3333dd;
         color : #000000;
         border-radius: 10px ;
         border-color: #00ff55;
@@ -87,7 +87,7 @@ app.setStyleSheet("""
         border-style: none;
         border-width: 1px;
         border-radius: 5px ;
-        min-height: 50px;
+        min-height: 30px;
     }
 
     QLineEdit:hover {
@@ -115,14 +115,14 @@ app.setStyleSheet("""
         color : #ffffff;
         font-size: 15px;
         border-radius: 5px ;
-        border-color: #ff0000;
+        border-color: #000000;
         border-style: solid;
         border-width: 3px;
     }
 
 """)
 window2 = QWidget()
-window2.resize(800, 650)
+window2.resize(800, 600)
 mainline = QVBoxLayout()
 
 pole1 = QLineEdit()
@@ -132,6 +132,7 @@ pole4 = QLineEdit()
 pole5 = QLineEdit()
 pole6 = QLineEdit()
 pole7 = QLineEdit()
+pole8 = QLineEdit()
 
 text1 = QLabel('Кількість астероїдів')
 text2 = QLabel('Швидкість астероїдів')
@@ -140,6 +141,8 @@ text4 = QLabel('Швидкість корабля')
 text5 = QLabel('Швидкість кулі')
 text6 = QLabel('Фпс')
 text7 = QLabel('Гучність музики')
+text8 = QLabel('Концентрація метеоритів')
+text9 = QLabel('Кастомні налаштування')
 
 line1 = QHBoxLayout()
 line2 = QHBoxLayout()
@@ -148,6 +151,7 @@ line4 = QHBoxLayout()
 line5 = QHBoxLayout()
 line6 = QHBoxLayout()
 line7 = QHBoxLayout()
+line8 = QHBoxLayout()
 
 butonsave = QPushButton('зберегти налаштування')
 butonskip = QPushButton('скинути налаштування')
@@ -168,7 +172,11 @@ line6.addWidget(text6)
 line6.addWidget(pole6)
 line7.addWidget(text7)
 line7.addWidget(pole7)
+line8.addWidget(text8)
+line8.addWidget(pole8)
 
+mainline.addWidget(text9)
+mainline.addLayout(line8)
 mainline.addLayout(line1)
 mainline.addLayout(line2)
 mainline.addLayout(line3)
@@ -189,8 +197,10 @@ pole4.setText(str(dota['player_speed']))
 pole5.setText(str(dota['bull_speed']))
 pole6.setText(str(dota['fps']))
 pole7.setText(str(dota['musik_volume']))
+pole8.setText(str(dota['asteroid_concentration']))
 
 def save():
+    dota['asteroid_concentration'] = pole8.text()
     dota['asteroid_count'] = pole1.text()
     dota['asteroid_speed']= pole2.text()
     dota['asteroid_size'] = pole3.text()
@@ -217,6 +227,7 @@ def skip():
     pole5.clear()
     pole6.clear()
     pole7.clear()
+    pole8.clear()
     settings.musik_volume = 60
     dota['asteroid_count'] = 30
     dota['asteroid_speed'] = 2
@@ -225,8 +236,10 @@ def skip():
     dota['bull_speed'] = 10
     dota['fps'] = 60
     dota['musik_volume'] = 60
+    dota['asteroid_concentration'] = 100
     with open('data.json', 'w', ) as f:
         json.dump(dota, f, indent=4)
+
     pole1.setText('30')
     pole2.setText('2')
     pole3.setText('50')
@@ -234,6 +247,7 @@ def skip():
     pole5.setText('10')
     pole6.setText('60')
     pole7.setText('60')
+    pole8.setText('100')
     #settings.new()
 
 
