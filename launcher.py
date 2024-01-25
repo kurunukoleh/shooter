@@ -122,7 +122,7 @@ app.setStyleSheet("""
 
 """)
 window2 = QWidget()
-window2.resize(800, 600)
+window2.resize(800, 630)
 mainline = QVBoxLayout()
 
 pole1 = QLineEdit()
@@ -143,6 +143,8 @@ text6 = QLabel('Фпс')
 text7 = QLabel('Гучність музики')
 text8 = QLabel('Концентрація метеоритів')
 text9 = QLabel('Кастомні налаштування')
+text10 = QLabel('Скіни')
+text11 = QLabel('Поточний скін :')
 
 line1 = QHBoxLayout()
 line2 = QHBoxLayout()
@@ -152,11 +154,15 @@ line5 = QHBoxLayout()
 line6 = QHBoxLayout()
 line7 = QHBoxLayout()
 line8 = QHBoxLayout()
+line9 = QHBoxLayout()
 
 butonsave = QPushButton('зберегти налаштування')
 butonskip = QPushButton('скинути налаштування')
 butonstart = QPushButton('почати гру')
 butonstart.setObjectName('butonstart')
+butomskin1 = QPushButton('зелений')
+butomskin2 = QPushButton('синій')
+butomskin3 = QPushButton('червоний')
 
 line1.addWidget(text1)
 line1.addWidget(pole1)
@@ -174,6 +180,9 @@ line7.addWidget(text7)
 line7.addWidget(pole7)
 line8.addWidget(text8)
 line8.addWidget(pole8)
+line9.addWidget(butomskin1)
+line9.addWidget(butomskin2)
+line9.addWidget(butomskin3)
 
 mainline.addWidget(text9)
 mainline.addLayout(line8)
@@ -184,6 +193,9 @@ mainline.addLayout(line4)
 mainline.addLayout(line5)
 mainline.addLayout(line6)
 mainline.addLayout(line7)
+mainline.addWidget(text10)
+mainline.addLayout(line9)
+mainline.addWidget(text11)
 mainline.addWidget(butonsave)
 mainline.addWidget(butonskip)
 mainline.addWidget(butonstart)
@@ -198,7 +210,24 @@ pole5.setText(str(dota['bull_speed']))
 pole6.setText(str(dota['fps']))
 pole7.setText(str(dota['musik_volume']))
 pole8.setText(str(dota['asteroid_concentration']))
+if dota['skin'] == "pixelartship.png":
+    text11.setText("поточний скін : зелений")
+if dota['skin'] == "pixelartship2.png":
+    text11.setText("поточний скін : синій")
+if dota['skin'] == "pixelartship3.png":
+    text11.setText("поточний скін : червоний")
 
+def setskin1():
+    dota['skin'] = settings.rocket_texture
+    text11.setText("поточний скін : зелений")
+
+def setskin2():
+    dota['skin'] = settings.rocket_texture2
+    text11.setText("поточний скін : синій")
+
+def setskin3():
+    dota['skin'] = settings.rocket_texture3
+    text11.setText("поточний скін : червоний")
 def save():
     dota['asteroid_concentration'] = pole8.text()
     dota['asteroid_count'] = pole1.text()
@@ -251,7 +280,6 @@ def skip():
     #settings.new()
 
 
-
 def start():
     window2.hide()
     app.quit()
@@ -260,6 +288,9 @@ def start():
 butonsave.clicked.connect(save)
 butonskip.clicked.connect(skip)
 butonstart.clicked.connect(start)
+butomskin1.clicked.connect(setskin1)
+butomskin2.clicked.connect(setskin2)
+butomskin3.clicked.connect(setskin3)
 
 window2.setLayout(mainline)
 window2.show()

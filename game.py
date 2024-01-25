@@ -20,6 +20,7 @@ def start():
     recordlist = dota['record']
     record = max(recordlist)
     asteroid_cocentration = int(dota['asteroid_concentration'])/100
+    playertexture = dota['skin']
 
     pygame.init()
     pygame.mixer.init()
@@ -58,7 +59,7 @@ def start():
     pygame.mixer.music.play(-1)
     pygame.mixer.music.set_volume(musik_volume)
 
-    rocket = tank.Tank(300, 400, 100, 100, settings.rocket_texture, player_speed )
+    rocket = tank.Tank(300, 400, 100, 100, playertexture, player_speed )
 
     for i in range(asteroid_count):
         enmylist.append(enemes.Enemy(random.randint(0, 750), random.randint(-100 * (asteroid_count/asteroid_cocentration), 0),asteroid_size, asteroid_size,
