@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 import json
 import game
-
+import saveload
 #import pygame
 #import enemes
 #import tank
@@ -9,8 +10,9 @@ import game
 #import time
 #import random
 import settings
-
+from saveload import dota
 dota = {}
+
 
 app = QApplication([])
 app.setStyleSheet("""
@@ -122,7 +124,7 @@ app.setStyleSheet("""
 
 """)
 window2 = QWidget()
-window2.resize(800, 630)
+window2.resize(800, 700)
 mainline = QVBoxLayout()
 
 pole1 = QLineEdit()
@@ -145,6 +147,10 @@ text8 = QLabel('Концентрація метеоритів')
 text9 = QLabel('Кастомні налаштування')
 text10 = QLabel('Скіни')
 text11 = QLabel('Поточний скін :')
+text12 = QLabel('гроші :')
+img1 = QLabel('gh')
+img2 = QLabel('gh')
+img3 = QLabel('gh')
 
 line1 = QHBoxLayout()
 line2 = QHBoxLayout()
@@ -155,6 +161,19 @@ line6 = QHBoxLayout()
 line7 = QHBoxLayout()
 line8 = QHBoxLayout()
 line9 = QHBoxLayout()
+line10 = QHBoxLayout()
+
+imgsk1 = QPixmap(settings.rocket_texture)
+imgsk2 = QPixmap(settings.rocket_texture2)
+imgsk3 = QPixmap(settings.rocket_texture3)
+
+imgsk1 = imgsk1.scaled(64 , 64)
+imgsk2 = imgsk2.scaled(64 , 64)
+imgsk3 = imgsk3.scaled(64 , 64)
+
+img1.setPixmap(imgsk1)
+img2.setPixmap(imgsk2)
+img3.setPixmap(imgsk3)
 
 butonsave = QPushButton('зберегти налаштування')
 butonskip = QPushButton('скинути налаштування')
@@ -163,6 +182,11 @@ butonstart.setObjectName('butonstart')
 butomskin1 = QPushButton('зелений')
 butomskin2 = QPushButton('синій')
 butomskin3 = QPushButton('червоний')
+butonbuysk2 = QPushButton('купити скін : синій')
+butonbuysk3 = QPushButton('купити скін : червоний')
+
+butomskin2.hide()
+butomskin3.hide()
 
 line1.addWidget(text1)
 line1.addWidget(pole1)
@@ -183,7 +207,13 @@ line8.addWidget(pole8)
 line9.addWidget(butomskin1)
 line9.addWidget(butomskin2)
 line9.addWidget(butomskin3)
+line9.addWidget(butonbuysk2)
+line9.addWidget(butonbuysk3)
+line10.addWidget(img1)
+line10.addWidget(img2)
+line10.addWidget(img3)
 
+mainline.addWidget(text12)
 mainline.addWidget(text9)
 mainline.addLayout(line8)
 mainline.addLayout(line1)
@@ -194,6 +224,7 @@ mainline.addLayout(line5)
 mainline.addLayout(line6)
 mainline.addLayout(line7)
 mainline.addWidget(text10)
+mainline.addLayout(line10)
 mainline.addLayout(line9)
 mainline.addWidget(text11)
 mainline.addWidget(butonsave)
@@ -210,12 +241,52 @@ pole5.setText(str(dota['bull_speed']))
 pole6.setText(str(dota['fps']))
 pole7.setText(str(dota['musik_volume']))
 pole8.setText(str(dota['asteroid_concentration']))
+text12.setText("гроші : " + str(dota['balance']))
 if dota['skin'] == "pixelartship.png":
     text11.setText("поточний скін : зелений")
 if dota['skin'] == "pixelartship2.png":
     text11.setText("поточний скін : синій")
 if dota['skin'] == "pixelartship3.png":
     text11.setText("поточний скін : червоний")
+
+if dota["salesk2"] == 1:
+    butonbuysk2.hide()
+    butomskin2.show()
+
+if dota["salesk3"] == 1:
+    butonbuysk3.hide()
+    butomskin3.show()
+
+
+def buyskin2():
+    if dota["balance"] >= 100:
+        dota["balance"] -= 100
+        dota["salesk2"] = 1
+        with open('data.json', 'w', ) as f:
+            json.dump(dota, f, indent=4)
+        try:
+            butonbuysk2.hide()
+            butomskin2.show()
+        except:
+            pass
+    else:
+        print("ytvf uhjitq")
+
+
+def buyskin3():
+    if dota["balance"] >= 200:
+        dota["balance"] -= 200
+        dota["salesk3"] = 1
+        with open('data.json', 'w', ) as f:
+            json.dump(dota, f, indent=4)
+        try:
+            butonbuysk3.hide()
+            butomskin3.show()
+        except:
+            pass
+    else:
+        print("ytvf uhjitq")
+
 
 def setskin1():
     dota['skin'] = settings.rocket_texture
@@ -237,6 +308,7 @@ def save():
     dota['bull_speed']= pole5.text()
     dota['fps']= pole6.text()
     dota['musik_volume'] = pole7.text()
+    #saveload.save()
     with open('data.json', 'w', ) as f:
         json.dump(dota, f, indent=4)
     #pole1.clear()
@@ -291,6 +363,8 @@ butonstart.clicked.connect(start)
 butomskin1.clicked.connect(setskin1)
 butomskin2.clicked.connect(setskin2)
 butomskin3.clicked.connect(setskin3)
+butonbuysk2.clicked.connect(buyskin2)
+butonbuysk3.clicked.connect(buyskin3)
 
 window2.setLayout(mainline)
 window2.show()

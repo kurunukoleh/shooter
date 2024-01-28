@@ -21,6 +21,7 @@ def start():
     record = max(recordlist)
     asteroid_cocentration = int(dota['asteroid_concentration'])/100
     playertexture = dota['skin']
+    money = int(dota['balance'])
 
     pygame.init()
     pygame.mixer.init()
@@ -44,7 +45,7 @@ def start():
 
     islose = False
     iswin = False
-    lichbul = -1
+    #lichbul = -1
     bullsit = []
     enmylist = []
     fixtime1 = time.time()
@@ -76,7 +77,7 @@ def start():
         rocket.move()
         rocket.shoot()
         # print(rocket.shoot())
-        if rocket.shoot() == True:
+        if rocket.shoot():
             if time.time() - fixtime1 > 0.5:
                 fixtime1 = time.time()
                 shootsound.play()
@@ -97,16 +98,16 @@ def start():
                 #pygame.mixer.quit()
 
         for colbul in bullsit:
-            lichbul += 1
-            lich = -1
+            #lichbul += 1
+            #lich = -1
             for colenem in enmylist:
-                lich += 1
+                #lich += 1
                 if colbul.hitbox.colliderect(colenem.hitbox):
                     nmet +=1
                     text1 = f1.render('Збито: ' + str(nmet) + " " + "з " + str(asteroid_count), 1, (180, 0, 0))
                     try:
-                        enmylist.pop(lich)
-                        bullsit.pop(lichbul)
+                        enmylist.remove(colenem)
+                        bullsit.remove(colbul)
                         bomsound.play()
                     except:
                         pass
@@ -122,7 +123,9 @@ def start():
             shootsound.set_volume(0)
             pygame.mixer.music.stop()
             if time.time() - fixtime2 < asteroid_count/asteroid_cocentration + 3.02:
+                money += nmet
                 dota["record"].append(int(nmet))
+                dota['balance'] = money
                 with open('data.json', 'w', ) as f:
                     json.dump(dota, f, indent=4)
                 winsound.play()
