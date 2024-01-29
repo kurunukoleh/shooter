@@ -30,11 +30,20 @@
         22,
         1,
         1,
-        20
+        20,
+        13,
+        18,
+        18,
+        18,
+        14,
+        21
     ],
     "asteroid_concentration": "100",
-    "skin": "pixelartship.png",
-    "balance": 400,
+    "skin": "pixelartship4.png",
+    "balance": 1002,
+    "salesk1": 1,
     "salesk2": 1,
-    "salesk3": 1
+    "salesk3": 1,
+    "salesk4": 1,
+    "salesk5": 1
 }

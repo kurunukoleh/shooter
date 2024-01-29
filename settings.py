@@ -4,6 +4,8 @@
 rocket_texture = "pixelartship.png"
 rocket_texture2 = "pixelartship2.png"
 rocket_texture3 = "pixelartship3.png"
+rocket_texture4 = "pixelartship4.png"
+rocket_texture5 = "pixelartship5.png"
 mateor_texture1 = "pixelartmeteor.png"
 mateor_texture2 = "pixelartmeteor2.png"
 mateor_texture3 = "pixelartmeteor3.png"
